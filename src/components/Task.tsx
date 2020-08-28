@@ -13,14 +13,28 @@ const defaultTask: ITask = {
 
 export interface TaskProps {
   task: ITask;
-  onArchiveTask: () => void;
-  onPinTask: () => void;
+  onArchiveTask: (id: string) => void;
+  onPinTask: (id: string) => void;
 }
 
 const Task = ({ task = defaultTask, onArchiveTask, onPinTask }: TaskProps) => {
+  const handleArchive = (id: string) => () => onArchiveTask(id);
+  const handlePin = (id: string) => () => onPinTask(id);
+
+  const stopPropagation = (event: React.MouseEvent) => event.stopPropagation();
+
   return (
-    <div className="list-item">
-      <input type="text" value={task.title} readOnly={true} />
+    <div className={`list-item ${task.state}`}>
+      <label htmlFor="checked" className="checkbox">
+        <input type="checkbox" defaultChecked={task.state === 'TASK_ARCHIVED'} disabled={true} name="checked" />
+        <span className="checkbox-custom" onClick={handleArchive(task.id)} />
+      </label>
+      <div className="title">
+        <input type="text" value={task.title} readOnly={true} placeholder="Input title" />
+      </div>
+      <div className="actions" onClick={stopPropagation}>
+        <a onClick={handlePin(task.id)}><span className="icon-star" /></a>
+      </div>
     </div>
   );
 }
