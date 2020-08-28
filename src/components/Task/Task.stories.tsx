@@ -1,11 +1,13 @@
 import * as React from 'react';
 import Task, { TaskProps } from './Task';
-import { Story } from '@storybook/react/types-6-0';
+import { Story, Meta } from '@storybook/react/types-6-0';
 
-export default {
+const TaskStory: Meta = {
   component: Task,
   title: 'Task',
 };
+
+export default TaskStory;
 
 const Template: Story<TaskProps> = args => <Task {...args} />;
 
